@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField]
-    private float PlayerMoveSpeed = 5f;
+    private float playerForceFactor;
 
     private Rigidbody2D playerb2d;
     private float horizontal;
@@ -35,14 +35,24 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (horizontal != 0)
         {
-            playerb2d.AddForce(new Vector2(PlayerMoveSpeed * horizontal, 0));
+            playerb2d.AddForce(new Vector2(playerForceFactor * horizontal, 0));
         }
-
-        playerb2d.AddForce(new Vector2(0, PlayerMoveSpeed * vertical));
+        if (vertical != 0)
+        playerb2d.AddForce(new Vector2(0, playerForceFactor * vertical));
     }
 
     public void ApplyDownwardForce()
     {
-        playerb2d.AddForce(new Vector2(0, - PlayerMoveSpeed * vertical));
+        playerb2d.AddForce(new Vector2(0, - playerForceFactor / 4), ForceMode2D.Force);
+    }
+
+    public void ApplyUpwardForce()
+    {
+        playerb2d.AddForce(new Vector2(0, playerForceFactor / 4), ForceMode2D.Force);
+    }
+
+    public void BoundaryPullPushForce()
+    {
+        playerb2d.AddForce(new Vector2(0, -playerForceFactor), ForceMode2D.Impulse);
     }
 }
