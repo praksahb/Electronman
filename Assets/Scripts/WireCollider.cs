@@ -1,22 +1,53 @@
 
 using UnityEngine;
 
+public enum Direction {
+    up=1 , down=-1
+}
+
 public class WireCollider : MonoBehaviour
 {
+    private PlayerMovementController playerMovementController;
+
+    private float transformDifference;
+
+
+    private void Awake()
+    {
+
+    }
+
 
     private void OnTriggerStay2D(Collider2D triggerCollider)
     {
-        PlayerMovementController playerMovementController = triggerCollider.gameObject.GetComponent<PlayerMovementController>();
-        Debug.Log("Test1");
+        playerMovementController = triggerCollider.gameObject.GetComponent<PlayerMovementController>();
 
         if (playerMovementController != null)
         {
-            if (gameObject.transform.position.y > playerMovementController.transform.position.y)
-                playerMovementController.ApplyUpwardForce();
+            transformDifference = transform.position.y - playerMovementController.transform.position.y;    
             
-            if (gameObject.transform.position.y < playerMovementController.transform.position.y)
-                playerMovementController.ApplyDownwardForce();
+            if (transformDifference > 0)
+            {
+                PlayerMovementController.direction = Direction.down;
+                playerMovementController.ApplyUpwardForce(Mathf.Abs(transformDifference));
+            }
+            
+            if (transformDifference < 0)
+            {
+                PlayerMovementController.direction = Direction.up;
+                playerMovementController.ApplyDownwardForce(Mathf.Abs(transformDifference));
+            }
         }
     }
-   
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerMovementController = collision.gameObject.GetComponent<PlayerMovementController>();
+
+        if(playerMovementController != null)
+        {
+            playerMovementController.DechargeJump();
+        }
+    }
+
 }
