@@ -80,6 +80,4 @@ public class PlayerMovementController : MonoBehaviour
         if (!chargeJump)
             playerRigidBody2d.AddForce(new Vector2(0, (playerForceFactor) * distanceFactor), ForceMode2D.Force);
     }
-
-
 }
