@@ -14,13 +14,16 @@ public class PlayerMovementController : MonoBehaviour
 
     // using static as a shortcut
     //implement without using static when done
-    public static float chargeJumpValue;
     public static Direction direction;
+
+
+    [SerializeField]
+    private float chargeJumpValue;
+
 
     private void Awake()
     {
         playerRigidBody2d = GetComponent<Rigidbody2D>();
-        chargeJumpValue = 0.2f;
     }
 
     void Update()
@@ -54,7 +57,9 @@ public class PlayerMovementController : MonoBehaviour
         //playerb2d.AddForce(new Vector2(0, playerForceFactor * vertical));
 
         if (chargeJump)
+        {
             ChargeJump();
+        }
     }
 
     private void ChargeJump()
@@ -69,15 +74,21 @@ public class PlayerMovementController : MonoBehaviour
         //playerigidBody2d.AddForce(new Vector2(0, -playerForceFactor * chargeJumpValue * multiple4Direction), ForceMode2D.Impulse);
     }
 
-    public void ApplyDownwardForce(float distanceFactor)
+    public void ApplyForceAroundWire(int distanceFactor)
     {
         if (!chargeJump)
-            playerRigidBody2d.AddForce(new Vector2(0, -(playerForceFactor) * distanceFactor), ForceMode2D.Force);
+            playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * distanceFactor), ForceMode2D.Force);
     }
 
-    public void ApplyUpwardForce(float distanceFactor)
-    {
-        if (!chargeJump)
-            playerRigidBody2d.AddForce(new Vector2(0, (playerForceFactor) * distanceFactor), ForceMode2D.Force);
-    }
+    //public void ApplyDownwardForce(float distanceFactor)
+    //{
+    //    if (!chargeJump)
+    //        playerRigidBody2d.AddForce(new Vector2(0, -(playerForceFactor) * distanceFactor), ForceMode2D.Force);
+    //}
+
+    //public void ApplyUpwardForce(float distanceFactor)
+    //{
+    //    if (!chargeJump)
+    //        playerRigidBody2d.AddForce(new Vector2(0, (playerForceFactor) * distanceFactor), ForceMode2D.Force);
+    //}
 }

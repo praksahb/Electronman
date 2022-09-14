@@ -15,14 +15,14 @@ public class BoundaryCollider : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerMovementController.chargeJumpValue > 0.2)
-        {
-            boxCollider2d.enabled = false;
-        }
-        else
-        {
-            boxCollider2d.enabled = true;
-        }
+        //if (PlayerMovementController.GetCJValue() > 0.2)
+        //{
+        //    boxCollider2d.enabled = false;
+        //}
+        //else
+        //{
+        //    boxCollider2d.enabled = true;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

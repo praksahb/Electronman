@@ -1,16 +1,10 @@
-
 using UnityEngine;
-
-public enum Direction {
-    up=1 , down=-1
-}
 
 public class WireCollider : MonoBehaviour
 {
     private PlayerMovementController playerMovementController;
 
     private float transformDifference;
-
 
     private void Awake()
     {
@@ -24,18 +18,21 @@ public class WireCollider : MonoBehaviour
 
         if (playerMovementController != null)
         {
-            transformDifference = transform.position.y - playerMovementController.transform.position.y;    
-            
+            // gameObject.transform is wire.
+            // subtracted by playergameObject.transform
+            transformDifference = Mathf.Round(transform.position.y - playerMovementController.transform.position.y);
+
+            Debug.Log(transformDifference);
             if (transformDifference > 0)
             {
                 PlayerMovementController.direction = Direction.down;
-                playerMovementController.ApplyUpwardForce(Mathf.Abs(transformDifference));
+                playerMovementController.ApplyForceAroundWire((int)transformDifference);
             }
-            
+
             if (transformDifference < 0)
             {
                 PlayerMovementController.direction = Direction.up;
-                playerMovementController.ApplyDownwardForce(Mathf.Abs(transformDifference));
+                playerMovementController.ApplyForceAroundWire((int)transformDifference);
             }
         }
     }
@@ -44,7 +41,7 @@ public class WireCollider : MonoBehaviour
     {
         playerMovementController = collision.gameObject.GetComponent<PlayerMovementController>();
 
-        if(playerMovementController != null)
+        if (playerMovementController != null)
         {
             playerMovementController.DechargeJump();
         }
