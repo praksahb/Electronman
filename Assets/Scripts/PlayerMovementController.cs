@@ -8,7 +8,7 @@ public class PlayerMovementController : MonoBehaviour
     private Rigidbody2D playerRigidBody2d;
     private float horizontal;
 
-    //private float vertical;
+    private float vertical;
 
     private bool chargeJump;
 
@@ -39,7 +39,8 @@ public class PlayerMovementController : MonoBehaviour
     private void TakeInput()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
-        //vertical = Input.GetAxisRaw("Vertical");
+        vertical = Input.GetAxisRaw("Vertical");
+
         //moveXleft = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.UpArrow);
 
         chargeJump = Input.GetKeyDown(KeyCode.LeftControl);
@@ -53,8 +54,8 @@ public class PlayerMovementController : MonoBehaviour
         }
 
 
-        //if (vertical != 0)
-        //playerb2d.AddForce(new Vector2(0, playerForceFactor * vertical));
+        if (vertical != 0)
+            playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * vertical));
 
         if (chargeJump)
         {
@@ -74,10 +75,26 @@ public class PlayerMovementController : MonoBehaviour
         //playerigidBody2d.AddForce(new Vector2(0, -playerForceFactor * chargeJumpValue * multiple4Direction), ForceMode2D.Impulse);
     }
 
+    public  void DischargeForce(WireAxis wireDir, Direction oppDir)
+    {
+        if (wireDir == WireAxis.horizontal)
+            playerRigidBody2d.AddForce(new Vector2(0, 10 * (int)oppDir * playerForceFactor));
+
+        if(wireDir == WireAxis.vertical)
+            playerRigidBody2d.AddForce(new Vector2(10 * (int)oppDir * playerForceFactor, 0));
+
+    }
+
     public void ApplyForceAroundWire(int distanceFactor)
     {
         if (!chargeJump)
             playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * distanceFactor), ForceMode2D.Force);
+    }
+
+    public void ApplyForceAroundWireX(int distanceFactor)
+    {
+        if (!chargeJump)
+            playerRigidBody2d.AddForce(new Vector2(playerForceFactor * distanceFactor, 0), ForceMode2D.Force);
     }
 
     //public void ApplyDownwardForce(float distanceFactor)
