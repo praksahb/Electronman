@@ -4,6 +4,9 @@ public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField]
     private float playerForceFactor;
+   // [SerializeField]
+    //private PlayerPlusMovementController ppController;
+
 
     private Rigidbody2D playerRigidBody2d;
     private float horizontal;
@@ -11,19 +14,22 @@ public class PlayerMovementController : MonoBehaviour
     private float vertical;
 
     private bool chargeJump;
+    private WireAxis WireOn;
 
     // using static as a shortcut
     //implement without using static when done
-    public static Direction direction;
 
+    public static Direction direction;
 
     [SerializeField]
     private float chargeJumpValue;
 
-
     private void Awake()
     {
         playerRigidBody2d = GetComponent<Rigidbody2D>();
+
+        //level 1 - initial
+        WireOn = WireAxis.vertical;
     }
 
     void Update()
@@ -38,8 +44,15 @@ public class PlayerMovementController : MonoBehaviour
 
     private void TakeInput()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        if (WireOn == WireAxis.horizontal)
+        {
+            horizontal = Input.GetAxisRaw("Horizontal");
+        }
+
+        if(WireOn == WireAxis.vertical)
+        {
+            vertical = Input.GetAxisRaw("Vertical");
+        }
 
         //moveXleft = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.UpArrow);
 
@@ -48,18 +61,54 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (horizontal != 0)
+        if (WireOn == WireAxis.horizontal)
         {
-            playerRigidBody2d.AddForce(new Vector2(playerForceFactor * horizontal, 0));
+            if (horizontal != 0)
+            {
+                playerRigidBody2d.AddForce(new Vector2(playerForceFactor * horizontal, 0));
+            }
         }
 
+        if (WireOn == WireAxis.vertical)
+        {
+            if (vertical != 0)
+            {
+                playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * vertical));
+            }
+        }
 
-        if (vertical != 0)
-            playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * vertical));
+        //if (vertical != 0)
+        //    playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * vertical));
 
         if (chargeJump)
         {
             ChargeJump();
+        }
+    }
+
+    public WireAxis GetWireOnValue()
+    {
+        return WireOn;
+    }
+
+    public void SwitchInputDirection()
+    {
+        if (WireOn == WireAxis.horizontal)
+        {
+            WireOn = WireAxis.vertical;
+            //if (ppController.GetWireOnValue() != WireAxis.horizontal)
+            //{
+            //    ppController.SwitchInputDirection();
+            //}
+        }
+
+        if (WireOn == WireAxis.vertical)
+        {
+            WireOn = WireAxis.horizontal;
+            //if (ppController.GetWireOnValue() != WireAxis.vertical)
+            //{
+            //    ppController.SwitchInputDirection();
+            //}
         }
     }
 
@@ -75,26 +124,27 @@ public class PlayerMovementController : MonoBehaviour
         //playerigidBody2d.AddForce(new Vector2(0, -playerForceFactor * chargeJumpValue * multiple4Direction), ForceMode2D.Impulse);
     }
 
-    public  void DischargeForce(WireAxis wireDir, Direction oppDir)
+    public void DischargeForce(WireAxis wireDir, Direction oppDir)
     {
         if (wireDir == WireAxis.horizontal)
-            playerRigidBody2d.AddForce(new Vector2(0, 10 * (int)oppDir * playerForceFactor));
-
-        if(wireDir == WireAxis.vertical)
-            playerRigidBody2d.AddForce(new Vector2(10 * (int)oppDir * playerForceFactor, 0));
+            playerRigidBody2d.velocity /= 2;
+        if (wireDir == WireAxis.vertical)
+            playerRigidBody2d.velocity /= 2;
 
     }
 
-    public void ApplyForceAroundWire(int distanceFactor)
+    public void ApplyForceAroundWireY(int distanceFactor)
     {
         if (!chargeJump)
             playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * distanceFactor), ForceMode2D.Force);
+        //ppController.ApplyForceAroundWireY(-distanceFactor);
     }
 
     public void ApplyForceAroundWireX(int distanceFactor)
     {
         if (!chargeJump)
             playerRigidBody2d.AddForce(new Vector2(playerForceFactor * distanceFactor, 0), ForceMode2D.Force);
+        //ppController.ApplyForceAroundWireX(-distanceFactor);
     }
 
     //public void ApplyDownwardForce(float distanceFactor)
