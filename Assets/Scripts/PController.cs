@@ -7,10 +7,27 @@ public class PController : MonoBehaviour
     [SerializeField]
     private GameObject protonplayer;
 
+    private Transform pTransform;
+
+
+    //use here but create inside PMC
+    private int chargeValue;
+
+
+    private void Awake()
+    {
+        pTransform = gameObject.transform;
+    }
+
     private void Update()
     {
-        Debug.Log(protonplayer.transform.position);
-        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.forward, 600 * Time.deltaTime);
+        //Debug.Log(pTransform.localEulerAngles);
+        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.back, 600 * Time.deltaTime);
+
+        if(pTransform.localEulerAngles.z == 90)
+        {
+            chargeValue++;
+        }
     }
 
 }

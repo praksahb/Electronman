@@ -4,9 +4,9 @@ public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField]
     private float playerForceFactor;
-   // [SerializeField]
+   
+    // [SerializeField]
     //private PlayerPlusMovementController ppController;
-
 
     private Rigidbody2D playerRigidBody2d;
     private float horizontal;
@@ -23,6 +23,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField]
     private float chargeJumpValue;
+
 
     private void Awake()
     {
@@ -46,12 +47,12 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (WireOn == WireAxis.horizontal)
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
+            horizontal = Input.GetAxis("Horizontal");
         }
 
         if(WireOn == WireAxis.vertical)
         {
-            vertical = Input.GetAxisRaw("Vertical");
+            vertical = Input.GetAxis("Vertical");
         }
 
         //moveXleft = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.UpArrow);
@@ -114,7 +115,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void ChargeJump()
     {
-        playerRigidBody2d.AddForce(new Vector2(0, playerForceFactor * chargeJumpValue * (int)direction), ForceMode2D.Impulse);
+        playerRigidBody2d.AddForce(new Vector2(playerForceFactor * chargeJumpValue * horizontal, playerForceFactor * chargeJumpValue * vertical), ForceMode2D.Impulse);
     }
 
     public void DechargeJump()
@@ -158,4 +159,5 @@ public class PlayerMovementController : MonoBehaviour
     //    if (!chargeJump)
     //        playerRigidBody2d.AddForce(new Vector2(0, (playerForceFactor) * distanceFactor), ForceMode2D.Force);
     //}
+
 }
