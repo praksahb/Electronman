@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PController : MonoBehaviour
@@ -22,11 +20,12 @@ public class PController : MonoBehaviour
     private void Update()
     {
         //Debug.Log(pTransform.localEulerAngles);
-        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.back, 600 * Time.deltaTime);
+        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.back, 60 * Time.deltaTime);
 
         if(pTransform.localEulerAngles.z == 90)
         {
             chargeValue++;
+            Debug.Log("Charge value: " + chargeValue);
         }
     }
 
