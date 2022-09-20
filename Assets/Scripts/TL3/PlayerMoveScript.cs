@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMoveScript : MonoBehaviour
 {
-    public float degsPerSecs = 25f;
+    public float degreesPerSecond = 30f;
 
     private void Update()
     {
-        transform.Rotate(new Vector3(0, 0, degsPerSecs) * Time.deltaTime);
+        transform.Rotate(new Vector3(0, 0, degreesPerSecond) * Time.deltaTime);
     }
 }

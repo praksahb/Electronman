@@ -7,10 +7,8 @@ public class PController : MonoBehaviour
 
     private Transform pTransform;
 
-
     //use here but create inside PMC
     private int chargeValue;
-
 
     private void Awake()
     {
@@ -19,14 +17,14 @@ public class PController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(pTransform.localEulerAngles);
-        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.back, 60 * Time.deltaTime);
+       // Debug.Log(pTransform.rotation.eulerAngles.z);
+        transform.RotateAround(protonplayer.gameObject.transform.position, Vector3.back, 250 * Time.deltaTime);
 
-        if(pTransform.localEulerAngles.z == 90)
+        //delta margin for counting rotation laps - 5 or 4.5 for speed = 500
+        if (pTransform.rotation.eulerAngles.z >= 90 && pTransform.rotation.eulerAngles.z <= 92)
         {
             chargeValue++;
             Debug.Log("Charge value: " + chargeValue);
         }
     }
-
 }

@@ -6,6 +6,9 @@ public class WireResistanceController : MonoBehaviour
 {
     private PlayerMovementController playerMovementController;
 
+    [SerializeField]
+    private float wireResistance;
+
     private void Awake()
     {
         
@@ -17,7 +20,7 @@ public class WireResistanceController : MonoBehaviour
 
         if(playerMovementController != null)
         {
-
+            playerMovementController.ApplyWireResistanceForce(wireResistance);
         }
     }
 }
